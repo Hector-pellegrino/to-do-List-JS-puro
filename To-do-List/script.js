@@ -11,16 +11,16 @@ class Task {
     }
 
     changestate() {
-      if(this.estado !== 'feito') {
-        this.estado = 'feito'
-      } else {
-        this.estado = 'Não feito'
-      }
+        if (this.estado !== 'feito') {
+            this.estado = 'feito';
+        } else {
+            this.estado = 'Não feito';
+        }
     }
 }
 
 function setLocalStorage() {
-  localStorage.setItem('taskList', JSON.stringify(tasks));
+    localStorage.setItem('taskList', JSON.stringify(tasks));
 }
 
 function changeBetweenSelected(div, task) {
@@ -28,17 +28,17 @@ function changeBetweenSelected(div, task) {
     const text = div.children[1]; // paragrafo
 
     function verifyState(estado) {
-      if (estado !== 'feito') {
-        task.estado = 'feito';
-        text.classList.add('selected');
-        text.classList.remove('no_selected');
-        setLocalStorage();
-      } else {
-        task.estado = 'Não feito';
-          text.classList.remove('selected');
-          text.classList.add('no_selected');
-          setLocalStorage();
-      }
+        if (estado !== 'feito') {
+            task.estado = 'feito';
+            text.classList.add('selected');
+            text.classList.remove('no_selected');
+            setLocalStorage();
+        } else {
+            task.estado = 'Não feito';
+            text.classList.remove('selected');
+            text.classList.add('no_selected');
+            setLocalStorage();
+        }
     }
     checkbox.addEventListener('click', () => verifyState(task.estado));
 }
@@ -49,15 +49,10 @@ function createRemoveButton(li) {
     removerBotao.textContent = 'Remover';
     function remover() {
         const removeTask = div.id;
-
-        tasks.forEach((task) => {
-            if (removeTask === `task_${task.id}`) {
-                tasks.pop(task);
-              }
-              alert(`Tarefa '${task.tarefa}' está sendo removida`)
-            })
-          setLocalStorage();
-          ul.removeChild(li);
+        console.log(removeTask);
+        tasks = tasks.filter((task) => `task_${task.id}` !== removeTask);
+        setLocalStorage();
+        ul.removeChild(li);
     }
     removerBotao.addEventListener('click', remover);
 
@@ -93,7 +88,7 @@ function addTask() {
     }
 }
 
-tasks.forEach(task =>  {
+tasks.forEach((task) => {
     const li = document.createElement('li');
     li.innerHTML = `
       <div class= "conteinerLi" id= "task_${task.id}">
@@ -115,8 +110,7 @@ tasks.forEach(task =>  {
     }
 
     createRemoveButton(li);
-    const div = li.children[0]
+    const div = li.children[0];
     changeBetweenSelected(div, task);
     ul.appendChild(li);
-  }
-)
+});
